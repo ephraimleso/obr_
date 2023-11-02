@@ -1,0 +1,2 @@
+[{"ID":3, "RouteId_pickup":1, "SubRouteId_pickup":1, "BusNumber_pickup":"1A", "RouteId_dropoff":1, "SubRouteId_dropoff":3, "BusNumber_dropoff":"1A", "LearnerId":3, "NewLearner":"no", "NextYearGrade":11, "StatusId":1, "ApplicationDate":"2023-10-31", "ApplicationYear":2024, "ParentId":1},
+ {"ID":4, "RouteId_pickup":2, "SubRouteId_pickup":5, "BusNumber_pickup":"2A", "RouteId_dropoff":3, "SubRouteId_dropoff":12, "BusNumber_dropoff":"3B", "LearnerId":5, "NewLearner":"yes", "NextYearGrade":8, "StatusId":3, "ApplicationDate":"2023-10-31", "ApplicationYear":2024, "ParentId":1}]

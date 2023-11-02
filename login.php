@@ -1,8 +1,7 @@
 <?php
 // Open connection to the database
+include("shared/database.php");
 
-
-include("database.php");
 session_start();
 $error = "";
 if (isset($_POST["btnSignin"])) {
@@ -14,13 +13,9 @@ if (isset($_POST["btnSignin"])) {
   $sql = "SELECT id FROM parents WHERE cellnumber = '$myusername' and Password = '$mypassword'";
   $result = mysqli_query($db, $sql);
   $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-  //$active = $row['active'];
-
+ 
   $count = mysqli_num_rows($result);
-
-  echo "Database result count is ".$count;
-  // If result matched $myusername and $mypassword, table row must be 1 row
-
+ 
   if ($count == 0) {
     $error = "<div class=\"alert alert-danger\">User not found.</div>";
   }
@@ -30,7 +25,7 @@ if (isset($_POST["btnSignin"])) {
 
     header("location: index.php");
   } else {
-    $error = "<div class=\"alert alert-danger\">Your Cell Number or Password is invalid.</div>";    
+    $error = "<div class=\"alert alert-danger\">Your Cell Number or Password is not invalid.</div>";    
   }
 }
 

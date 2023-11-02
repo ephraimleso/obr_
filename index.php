@@ -1,7 +1,7 @@
 <?php
 // Open connection to the database
-include("database.php");
-include("common.php");
+include("shared/database.php");
+include("shared/common.php");
 
 $select_str = "";
 $query = "SELECT * FROM learners where parentID = '$parentId'";
@@ -170,8 +170,9 @@ $apps_result = mysqli_query($db, $apps_query);
                         <td>
                           <?php echo $row['Status_description'] ?>
                         </td>
-                        <td> 
-                          <button class="btn btn-danger btn-xs" value="<?php echo $row['ID'] ?>" onclick="cancelApplication(this.value);">
+                        <td>
+                          <button class="btn btn-danger btn-xs" value="<?php echo $row['ID'] ?>"
+                            onclick="cancelApplication(this.value);">
                             <i class="fa fa-trash-o "></i>
                           </button>
                         </td>
@@ -202,20 +203,20 @@ $apps_result = mysqli_query($db, $apps_query);
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
   <!--script for this page-->
-  <script src="logic.js"></script>
+  <script src="shared/logic.js"></script>
 </body>
 
 </html>
 
 <script type="text/javascript">
-  function cancelApplication(val){    
-   $.ajax({
-        type: "POST",
-        url: "cancelApplication.php",
-        data: {applicationId:val},
-        success: function(data){
-          location.href = "index.php";
-        }
+  function cancelApplication(val) {
+    $.ajax({
+      type: "POST",
+      url: "shared/cancelApplication.php",
+      data: { applicationId: val },
+      success: function (data) {
+        location.href = window.location.href;       
+      }
     });
   }
 </script>

@@ -1,7 +1,6 @@
 <?php
 include("database.php");
 
-
 $id = $_POST['routeId'];
 
 $query = "SELECT * FROM subroutes WHERE TripTypeId = 1 AND RouteId = " . $id;

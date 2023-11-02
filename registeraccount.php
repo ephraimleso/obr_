@@ -1,17 +1,13 @@
 <?php
-// Open connection to the database
-$db = mysqli_connect("localhost", "root", "", "onlinebusregistration");
-if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  exit();
-}
+include("shared/database.php");
+include("shared/common.php");
+
+
 $select_str = "";
 $query = "SELECT * FROM grades";
 $result = mysqli_query($db, $query);
 while ($row = mysqli_fetch_row($result)) {
   $select_str .= "<OPTION VALUE=\"$row[1]\" >$row[1]\n";
-  //If the array is to be integer indexed, use the following
-  // $select_str .= "<OPTION VALUE=\"$row[0]\" >$row[1]\n"; 
 }
 
 

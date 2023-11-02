@@ -1,0 +1,4 @@
+[{"ID":1, "Description":"Waiting list"},
+ {"ID":2, "Description":"Allocated"},
+ {"ID":3, "Description":"Cancelled"},
+ {"ID":4, "Description":"Rejected"}]

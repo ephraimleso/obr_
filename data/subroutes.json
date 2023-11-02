@@ -1,0 +1,12 @@
+[{"ID":1, "BusNumber":"1A", "Name":"Corner of Panorama and Marabou Road", "Time":"6:22", "TripTypeId":1, "BusId":1, "RouteId":1},
+ {"ID":2, "BusNumber":"1B", "Name":"Corner of Kolgansstraat and Skimmerstraat", "Time":"6:30", "TripTypeId":1, "BusId":1, "RouteId":1},
+ {"ID":3, "BusNumber":"1A", "Name":"Corner of Panorama and Marabou Road", "Time":"14:30", "TripTypeId":2, "BusId":1, "RouteId":1},
+ {"ID":4, "BusNumber":"1B", "Name":"Corner of Kolgansstraat and Skimmerstraat", "Time":"14:39", "TripTypeId":2, "BusId":1, "RouteId":1},
+ {"ID":5, "BusNumber":"2A", "Name":"Corner of Reddersburg Street and Mafeking Drive", "Time":"6:25", "TripTypeId":1, "BusId":2, "RouteId":2},
+ {"ID":6, "BusNumber":"2B", "Name":"Corner of Theuns vanNiekerkstraat and Roosmarynstraat", "Time":"6:35", "TripTypeId":1, "BusId":2, "RouteId":2},
+ {"ID":7, "BusNumber":"2A", "Name":"Corner of Reddersburg Street and Mafeking Drive", "Time":"14:25", "TripTypeId":2, "BusId":2, "RouteId":2},
+ {"ID":8, "BusNumber":"2B", "Name":"Corner of Theuns van Niekerkstraat and Roosmarynstraat", "Time":"14:30", "TripTypeId":2, "BusId":2, "RouteId":2},
+ {"ID":9, "BusNumber":"3A", "Name":"Corner of Jasper Drive and Tieroog Street", "Time":"6:20", "TripTypeId":1, "BusId":3, "RouteId":3},
+ {"ID":10, "BusNumber":"3B", "Name":"Corner of Louise Street and Von Willich Drive", "Time":"6:40", "TripTypeId":1, "BusId":3, "RouteId":3},
+ {"ID":11, "BusNumber":"3A", "Name":"Corner of Jasper Drive and Tieroog Street", "Time":"14:30", "TripTypeId":2, "BusId":3, "RouteId":3},
+ {"ID":12, "BusNumber":"3B", "Name":"Corner of Louise Street and Von Willich Drive", "Time":"14:40", "TripTypeId":2, "BusId":3, "RouteId":3}]

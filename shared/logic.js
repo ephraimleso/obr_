@@ -1,7 +1,9 @@
 function getMorningSubRoute(val) {
+alert("getMorningSubRoute");
+
     $.ajax({
         type: "POST",
-        url: "getMorningSubRoute.php",
+        url: "./obr/shared/getMorningSubRoute.php",
         data: {routeId:val},
         success: function(data){
             $("#ddlSubRoute_m").html(data);
@@ -56,7 +58,7 @@ function getLearnerDetails(val){
 function cancelApplication(val){    
     $.ajax({
          type: "POST",
-         url: "cancelApplication.php",
+         url: "shared/cancelApplication.php",
          data: {applicationId:val},
          success: function(data){
            location.href = "index.php";
@@ -67,7 +69,7 @@ function cancelApplication(val){
    function updateApplicationStatus(id, status){    
     $.ajax({
          type: "POST",
-         url: "updateApplicationStatus.php",
+         url: "shared/updateApplicationStatus.php",
          data: {applicationId:id, statusId:status},
          success: function(data){
            location.href = window.location.href;

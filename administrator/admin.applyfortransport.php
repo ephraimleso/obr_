@@ -1,8 +1,10 @@
 <?php
-include("shared/database.php");
-include("shared/common.php");
+include("database.php");
+include("admin_manager.php");
 
 $grades_str = "";
+$parents_str = "";
+
 $query = "SELECT * FROM grades";
 $res_grades = mysqli_query($db, $query);
 $grades_str .= "<OPTION VALUE=\"0\" >---select---";
@@ -10,15 +12,23 @@ while ($row = mysqli_fetch_row($res_grades)) {
   $grades_str .= "<OPTION VALUE=\"$row[1]\" >$row[1]\n";
 }
 
+$query = "SELECT * FROM parents";
+$parents = mysqli_query($db, $query);
+$parents_str .= "<OPTION VALUE=\"0\" >---select---";
+while ($row = mysqli_fetch_row($parents)) {
+  $parents_str .= "<OPTION VALUE=\"$row[0]\" >$row[1]\n";
+}
+
+
 $message_str = "";
 $id = "";
 $routes_str_m = "";
 $sub_routes_str_m = "";
-$bus_number_str_m = "test input";
+$bus_number_str_m = "";
 
 $routes_str_a = "";
 $sub_routes_str_a = "";
-$bus_number_str_a = "not yet set";
+$bus_number_str_a = "";
 
 $routes_str_m = "";
 $routes_query = "SELECT * FROM routes";
@@ -77,16 +87,16 @@ if (isset($_POST["btnSubmit"])) {
   <title>Impumelelo High School</title>
 
   <!-- Favicons -->
-  <link href="img/favicon.png" rel="icon">
-  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="../img/favicon.png" rel="icon">
+  <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Bootstrap core CSS -->
-  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!--external css-->
-  <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
   <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet">
-  <link href="css/style-responsive.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <link href="../css/style-responsive.css" rel="stylesheet">
 </head>
 
 <body>
@@ -108,24 +118,24 @@ if (isset($_POST["btnSubmit"])) {
     <aside>
       <div id="sidebar" class="nav-collapse ">
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="profile.php"><img src="img/usr.png" class="img-circle" width="80"></a></p>
+          <p class="centered"><a href="profile.php"><img src="../img/usr.png" class="img-circle" width="80"></a></p>
           <h5 class="centered"><b>
-              <?php echo "$parentName"; ?>
+              <?php echo "$adminName"; ?>
             </b></h5>
           <li class="mt">
-            <a href="index.php">
+            <a href="admin.dashboard.php">
               <i class="fa fa-dashboard"></i>
               <span>Dashboard</span>
             </a>
           </li>
           <li class="sub-menu">
-            <a href="registerlearner.php">
+            <a href="admin.registerlearner.php">
               <i class="fa fa-user"></i>
               <span>Register a Learner</span>
             </a>
           </li>
           <li class="sub-menu">
-            <a href="applyfortransport.php">
+            <a href="admin.applyfortransport.php">
               <i class="fa fa-bus"></i>
               <span>Apply for Bus Transport</span>
             </a>
@@ -147,6 +157,49 @@ if (isset($_POST["btnSubmit"])) {
                       <h4><i class="fa fa-angle-right"></i>Details</h4>
                       <hr>
                       <?php echo "$message_str"; ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 "><b>Learner:</b></label>
+                    <div class="col-lg-10">
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label for="ddlParent" class="control-label col-lg-2">Parent</label>
+                    <div class="col-lg-10">
+                      <select class=" form-control" name="ddlParent">
+                        <?php echo "$parents_str"; ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label for="ddlNameSurname" class="control-label col-lg-2">
+                      Name and Surname
+                    </label>
+                    <div class="col-lg-10">
+                      <select class=" form-control" name="ddlNameSurname" onchange="getLearnerDetails(this.value);"
+                        required>
+                        <?php echo "$learners_str"; ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label for="ddlNewLearner" class="control-label col-lg-2">New learner </label>
+                    <div class="col-lg-10">
+                      <select class=" form-control" name="ddlNewLearner">
+                        <option value="0">---select---</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label for="ddlGrade" class="control-label col-lg-2">Grade in 2024
+                    </label>
+                    <div class="col-lg-10">
+                      <select class=" form-control" name="ddlGrade">
+                        <?php echo "$grades_str"; ?>
+                      </select>
                     </div>
                   </div>
                   <div class="form-group ">
@@ -221,41 +274,6 @@ if (isset($_POST["btnSubmit"])) {
                         readonly="true" />
                     </div>
                   </div>
-                  <div class="form-group ">
-                    <label class="control-label col-lg-2"><b>Learner:</b></label>
-                    <div class="col-lg-10">
-                    </div>
-                  </div>
-                  <div class="form-group ">
-                    <label for="ddlNameSurname" class="control-label col-lg-2">
-                      Name and Surname
-                    </label>
-                    <div class="col-lg-10">
-                      <select class=" form-control" name="ddlNameSurname" onchange="getLearnerDetails(this.value);"
-                        required>
-                        <?php echo "$learners_str"; ?>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group ">
-                    <label for="ddlNewLearner" class="control-label col-lg-2">New learner </label>
-                    <div class="col-lg-10">
-                      <select class=" form-control" name="ddlNewLearner">
-                        <option value="0">---select---</option>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group ">
-                    <label for="ddlGrade" class="control-label col-lg-2">Grade in 2024 </label>
-                    <div class="col-lg-10">
-                      <select class=" form-control" name="ddlGrade">
-                        <?php echo "$grades_str"; ?>
-                      </select>
-                    </div>
-                  </div>
-
                   <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                       <button class="btn btn-theme" type="submit" name="btnSubmit">Submit</button>
@@ -271,60 +289,15 @@ if (isset($_POST["btnSubmit"])) {
     </section>
 
   </section>
-  <script src="lib/jquery/jquery.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-  <script src="lib/jquery-ui-1.9.2.custom.min.js"></script>
-  <script src="lib/jquery.ui.touch-punch.min.js"></script>
-  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
-  <script src="lib/jquery.scrollTo.min.js"></script>
-  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-  <script src="lib/common-scripts.js"></script>
-  <!-- <script src="shared/logic.js"></script> -->
+  <script src="../lib/jquery/jquery.min.js"></script>
+  <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../lib/jquery-ui-1.9.2.custom.min.js"></script>
+  <script src="../lib/jquery.ui.touch-punch.min.js"></script>
+  <script class="include" type="text/javascript" src="../lib/jquery.dcjqaccordion.2.7.js"></script>
+  <script src="../lib/jquery.scrollTo.min.js"></script>
+  <script src="../lib/jquery.nicescroll.js" type="text/javascript"></script>
+  <script src="../lib/common-scripts.js"></script>
+  <script src="../shared/logic.js"></script>
 </body>
 
 </html>
-<script type="text/javascript">
-  function getMorningSubRoute(val) {
-    $.ajax({
-        type: "POST",
-        url: "shared/getMorningSubRoute.php",
-        data: {routeId:val},
-        success: function(data){
-            $("#ddlSubRoute_m").html(data);
-        }
-    });
-}
-
-function getMorningBusNumber(val){
-    $.ajax({
-        type: "POST",
-        url: "shared/getBusNumber.php",
-        data: {subrouteId:val},
-        success: function(data){
-            $("#txtBusNumber_m").val(data);
-        }
-    });
-}
-
-function getAfternoonSubRoute(val) {
-    $.ajax({
-        type: "POST",
-        url: "shared/getAfternoonSubRoute.php",
-        data: {routeId:val},
-        success: function(data){
-            $("#ddlSubRoute_a").html(data);
-        }
-    });
-}
-
-function getAfternoonBusNumber(val){
-    $.ajax({
-        type: "POST",
-        url: "shared/getBusNumber.php",
-        data: {subrouteId:val},
-        success: function(data){
-            $("#txtBusNumber_a").val(data);
-        }
-    });
-}
-</script>

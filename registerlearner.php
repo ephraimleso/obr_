@@ -1,6 +1,6 @@
 <?php
-include("database.php");
-include("common.php");
+include("shared/database.php");
+include("shared/common.php");
 
 $grades_str = "";
 $query = "SELECT * FROM grades";
