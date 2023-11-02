@@ -16,7 +16,7 @@ $query = "SELECT * FROM parents";
 $parents = mysqli_query($db, $query);
 $parents_str .= "<OPTION VALUE=\"0\" >---select---";
 while ($row = mysqli_fetch_row($parents)) {
-  $parents_str .= "<OPTION VALUE=\"$row[0]\" >$row[1]\n";
+  $parents_str .= "<OPTION VALUE=\"$row[0]\" >$row[1] $row[2]\n";
 }
 
 
@@ -138,6 +138,12 @@ if (isset($_POST["btnSubmit"])) {
             <a href="admin.applyfortransport.php">
               <i class="fa fa-bus"></i>
               <span>Apply for Bus Transport</span>
+            </a>
+          </li>
+          <li class="sub-menu">
+          <a href="admin.reports.php">
+              <i class="fa fa-bar-chart"></i>
+              <span>Reports</span>
             </a>
           </li>
         </ul>

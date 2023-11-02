@@ -76,6 +76,12 @@ $apps_result = mysqli_query($db, $apps_query);
               <span>Apply for Bus Transport</span>
             </a>
           </li>
+          <li class="sub-menu">
+          <a href="admin.reports.php">
+              <i class="fa fa-bar-chart"></i>
+              <span>Reports</span>
+            </a>
+          </li>
         </ul>
         <!-- sidebar menu end-->
       </div>
