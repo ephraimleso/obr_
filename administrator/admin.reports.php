@@ -4,11 +4,17 @@ include("database.php");
 include("admin_manager.php");
 
 $select_str = "";
+$learners_count = 0;
+$applications_count = 0;
+
 $query = "SELECT * FROM learners";
 $result = mysqli_query($db, $query);
+$learners_count = mysqli_num_rows($result);
+
 
 $apps_query = "CALL get_admin_applications_v2()";
 $apps_result = mysqli_query($db, $apps_query);
+$applications_count = mysqli_num_rows($apps_result);
 
 ?>
 
@@ -77,7 +83,7 @@ $apps_result = mysqli_query($db, $apps_query);
             </a>
           </li>
           <li class="sub-menu">
-          <a href="admin.reports.php">
+            <a href="admin.reports.php">
               <i class="fa fa-bar-chart"></i>
               <span>Reports</span>
             </a>
@@ -90,13 +96,15 @@ $apps_result = mysqli_query($db, $apps_query);
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper site-min-height">
-        <h3>Dashboard</h3>
+        <h3>Reports</h3>
         <div class="row mt">
           <div class="col-lg-12">
             <div class="col-md-12">
               <div class="content-panel">
                 <table class="table table-striped table-advance table-hover">
-                  <h4><i class="fa fa-angle-right"></i>Learner(s)</h4>
+                  <h4><i class="fa fa-angle-right"></i>Learners [
+                    <?php echo "$learners_count" ?>]
+                  </h4>
                   <thead>
                     <tr>
                       <th><i class="fa fa-user"></i> Full Name</th>
@@ -131,7 +139,21 @@ $apps_result = mysqli_query($db, $apps_query);
             <br />
             <div class="col-md-12">
               <div class="content-panel">
-                <h4><i class="fa fa-angle-right"></i>Application(s)</h4>
+              <h4><i class="fa fa-angle-right"></i>Applications</h4>
+                <table class="table table-bordered table-striped table-condensed cf">
+                  <thead class="cf">
+                    <tr>
+                      <td>Allocated</td>
+                      <td>Waitinglist</td>
+                      <td>Total</td>
+                    </tr>
+                    <tr>
+                      <td><?php echo "$applications_count" ?></td>
+                      <td><?php echo "$applications_count" ?></td>
+                      <td><?php echo "$applications_count" ?></td>
+                    </tr>
+                  </thead>
+                </table>
                 <br />
                 <table class="table table-bordered table-striped table-condensed cf">
                   <thead class="cf">
@@ -176,14 +198,16 @@ $apps_result = mysqli_query($db, $apps_query);
                         <td>
                           <?php echo $row['Status_description'] ?>
                         </td>
-                        <td> 
-                          <button class="btn btn-success btn-xs" value="<?php echo $row['ID'] ?>" onclick="allocateApplication(this.value);">
+                        <td>
+                          <button class="btn btn-success btn-xs" value="<?php echo $row['ID'] ?>"
+                            onclick="allocateApplication(this.value);">
                             <i class="fa fa-check "></i>
                           </button>
                         </td>
-                        <td> 
-                          <button class="btn btn-danger btn-xs" value="<?php echo $row['ID'] ?>" onclick="cancelApplication(this.value);">
-                            <i class="fa fa-trash-o "></i>
+                        <td>
+                          <button class="btn btn-danger btn-xs" value="<?php echo $row['ID'] ?>"
+                            onclick="cancelApplication(this.value);">
+                            <i class="fa fa-close"></i>
                           </button>
                         </td>
                       </tr>
@@ -213,31 +237,31 @@ $apps_result = mysqli_query($db, $apps_query);
   <!--common script for all pages-->
   <script src="../lib/common-scripts.js"></script>
   <!--script for this page-->
-  <script src="../shared/logic.js"></script>
+  <!-- <script src="../shared/logic.js"></script> -->
 </body>
 
 </html>
 
 <script type="text/javascript">
-  function cancelApplication(val){    
-   $.ajax({
-        type: "POST",
-        url: "../shared/cancelApplication.php",
-        data: {applicationId:val},
-        success: function(data){
-          location.href = window.location.href;
-        }
+  function cancelApplication(val) {
+    $.ajax({
+      type: "POST",
+      url: "../shared/cancelApplication.php",
+      data: { applicationId: val },
+      success: function (data) {
+        location.href = window.location.href;
+      }
     });
   }
 
-  function allocateApplication(val){    
-   $.ajax({
-        type: "POST",
-        url: "../shared/allocateApplication.php",
-        data: {applicationId:val},
-        success: function(data){
-          location.href = window.location.href;
-        }
+  function allocateApplication(val) {
+    $.ajax({
+      type: "POST",
+      url: "../shared/allocateApplication.php",
+      data: { applicationId: val },
+      success: function (data) {
+        location.href = window.location.href;
+      }
     });
   }
 </script>

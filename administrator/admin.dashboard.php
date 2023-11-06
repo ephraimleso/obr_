@@ -183,7 +183,7 @@ $apps_result = mysqli_query($db, $apps_query);
                         </td>
                         <td> 
                           <button class="btn btn-danger btn-xs" value="<?php echo $row['ID'] ?>" onclick="cancelApplication(this.value);">
-                            <i class="fa fa-trash-o "></i>
+                            <i class="fa fa-close "></i>
                           </button>
                         </td>
                       </tr>
