@@ -41,15 +41,6 @@ while ($row = mysqli_fetch_row($res_routes)) {
   $routes_str_a .= "<OPTION VALUE=\"$row[0]\" >$row[1]\n";
 }
 
-//learners
-$learners_str = "";
-$query = "SELECT * FROM learners where parentID = '$parentId'";
-$result = mysqli_query($db, $query);
-$learners_str .= "<OPTION VALUE=\"0\" >---select---";
-while ($row = mysqli_fetch_row($result)) {
-  $learners_str .= "<OPTION VALUE=\"$row[0]\" >$row[1]\n";
-}
-
 if (isset($_POST["btnSubmit"])) {
   // get the post records
   $routeId_pickup = $_POST['ddlRoute_m'];
@@ -58,25 +49,47 @@ if (isset($_POST["btnSubmit"])) {
   $routeId_dropoff = $_POST['ddlRoute_a'];
   $subRouteId_dropoff = $_POST['ddlSubRoute_a'];
   $busNumber_dropoff = $_POST['txtBusNumber_a'];
-  $learnerId = $_POST['ddlNameSurname'];
+  $learnerId = $_POST['ddlLearner'];
   $newLearner = $_POST['ddlNewLearner'];
   $nextYearGrade = $_POST['ddlGrade'];
+  $parentId = $_POST['ddlParent'];
   $statusId = 1;
   $date = date("Y-m-d");
   $year = 2024;
 
-  // database insert SQL code
-  $sql = "INSERT INTO `transportapplications`(`RouteId_pickup`, `SubRouteId_pickup`, `BusNumber_pickup`, `RouteId_dropoff`, `SubRouteId_dropoff`, 
-  `BusNumber_dropoff`, `LearnerId`, `NewLearner`, `NextYearGrade`, `StatusId`, `ApplicationDate`, `ApplicationYear`,`ParentId`)
-  VALUES ($routeId_pickup,$subRouteId_pickup,'$busNumber_pickup',$routeId_dropoff,  $subRouteId_dropoff 
-  ,'$busNumber_dropoff',$learnerId,'$newLearner',$nextYearGrade,$statusId,'$date',$year,$parentId)";
+  $message_str = "Pick-up: " . $routeId_pickup . " - " . $subRouteId_pickup . "<br/> Drop off: " . $routeId_dropoff . " - " . $subRouteId_dropoff;
 
-  // insert in database 
-  $rs = mysqli_query($db, $sql);
+  if ($routeId_pickup == 0 && $subRouteId_pickup == "---select---" && $routeId_dropoff == 0 && $subRouteId_dropoff == "---select---") {
+    $message_str = "<div class=\"alert alert-warning\">No pick up or drop off specified. Please select valid options.</div>";
 
-  if ($rs) {
-    $message_str = "<div class=\"alert alert-success\">Application submitted successfully.</div>";
+  } else {
+    if (empty($routeId_pickup) || empty($subRouteId_pickup)) {
+      $routeId_pickup = "0";
+      $subRouteId_pickup = "0";
+      $busNumber_pickup = "";
+    }
+
+    if (empty($routeId_dropoff) || empty($subRouteId_dropoff)) {
+      $routeId_dropoff = "0";
+      $subRouteId_dropoff = "0";
+      $busNumber_dropoff = "";
+    }
+
+    // database insert SQL code
+    $sql = "INSERT INTO `transportapplications`(`RouteId_pickup`, `SubRouteId_pickup`, `BusNumber_pickup`, `RouteId_dropoff`, `SubRouteId_dropoff`, 
+    `BusNumber_dropoff`, `LearnerId`, `NewLearner`, `NextYearGrade`, `StatusId`, `ApplicationDate`, `ApplicationYear`,`ParentId`,`CreatedBy`)
+    VALUES ($routeId_pickup,$subRouteId_pickup,'$busNumber_pickup',$routeId_dropoff,  $subRouteId_dropoff 
+    ,'$busNumber_dropoff',$learnerId,'$newLearner',$nextYearGrade,$statusId,'$date',$year,$parentId,'admin')";
+
+    // insert in database 
+    $rs = mysqli_query($db, $sql);
+
+    if ($rs) {
+      $message_str = "<div class=\"alert alert-success\">Application submitted successfully.</div>";
+    }
   }
+
+
 }
 ?>
 
@@ -141,7 +154,7 @@ if (isset($_POST["btnSubmit"])) {
             </a>
           </li>
           <li class="sub-menu">
-          <a href="admin.reports.php">
+            <a href="admin.reports.php">
               <i class="fa fa-bar-chart"></i>
               <span>Reports</span>
             </a>
@@ -173,19 +186,18 @@ if (isset($_POST["btnSubmit"])) {
                   <div class="form-group ">
                     <label for="ddlParent" class="control-label col-lg-2">Parent</label>
                     <div class="col-lg-10">
-                      <select class=" form-control" name="ddlParent">
+                      <select class=" form-control" name="ddlParent" onchange="getLeanersByParent(this.value);">
                         <?php echo "$parents_str"; ?>
                       </select>
                     </div>
                   </div>
                   <div class="form-group ">
-                    <label for="ddlNameSurname" class="control-label col-lg-2">
+                    <label for="ddlLearner" class="control-label col-lg-2">
                       Name and Surname
                     </label>
                     <div class="col-lg-10">
-                      <select class=" form-control" name="ddlNameSurname" onchange="getLearnerDetails(this.value);"
-                        required>
-                        <?php echo "$learners_str"; ?>
+                      <select class=" form-control" id="ddlLearner" name="ddlLearner" required>
+                        <option>---select---</option>
                       </select>
                     </div>
                   </div>
@@ -193,7 +205,6 @@ if (isset($_POST["btnSubmit"])) {
                     <label for="ddlNewLearner" class="control-label col-lg-2">New learner </label>
                     <div class="col-lg-10">
                       <select class=" form-control" name="ddlNewLearner">
-                        <option value="0">---select---</option>
                         <option value="yes">Yes</option>
                         <option value="no">No</option>
                       </select>
@@ -230,7 +241,6 @@ if (isset($_POST["btnSubmit"])) {
                     <div class="col-lg-10">
                       <select class=" form-control" id="ddlSubRoute_m" name="ddlSubRoute_m"
                         onchange="getMorningBusNumber(this.value);">
-                        <!-- <?php echo "$sub_routes_str_m"; ?> -->
                         <option>---select---</option>
                       </select>
                     </div>
@@ -303,7 +313,63 @@ if (isset($_POST["btnSubmit"])) {
   <script src="../lib/jquery.scrollTo.min.js"></script>
   <script src="../lib/jquery.nicescroll.js" type="text/javascript"></script>
   <script src="../lib/common-scripts.js"></script>
-  <script src="../shared/logic.js"></script>
 </body>
 
 </html>
+
+<script type="text/javascript">
+  function getLeanersByParent(val) {
+    $.ajax({
+      type: "POST",
+      url: "../shared/getLeanersByParent.php",
+      data: { parentId: val },
+      success: function (data) {
+        $("#ddlLearner").html(data);
+      }
+    });
+  }
+
+  function getMorningSubRoute(val) {
+    $.ajax({
+      type: "POST",
+      url: "../shared/getMorningSubRoute.php",
+      data: { routeId: val },
+      success: function (data) {
+        $("#ddlSubRoute_m").html(data);
+      }
+    });
+  }
+
+  function getMorningBusNumber(val) {
+    $.ajax({
+      type: "POST",
+      url: "../shared/getBusNumber.php",
+      data: { subrouteId: val },
+      success: function (data) {
+        $("#txtBusNumber_m").val(data);
+      }
+    });
+  }
+
+  function getAfternoonSubRoute(val) {
+    $.ajax({
+      type: "POST",
+      url: "../shared/getAfternoonSubRoute.php",
+      data: { routeId: val },
+      success: function (data) {
+        $("#ddlSubRoute_a").html(data);
+      }
+    });
+  }
+
+  function getAfternoonBusNumber(val) {
+    $.ajax({
+      type: "POST",
+      url: "../shared/getBusNumber.php",
+      data: { subrouteId: val },
+      success: function (data) {
+        $("#txtBusNumber_a").val(data);
+      }
+    });
+  }
+</script>

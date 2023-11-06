@@ -7,7 +7,7 @@ $select_str = "";
 $query = "SELECT * FROM learners";
 $result = mysqli_query($db, $query);
 
-$apps_query = "CALL get_admin_applications()";
+$apps_query = "CALL get_admin_applications_v2()";
 $apps_result = mysqli_query($db, $apps_query);
 
 ?>

@@ -22,25 +22,28 @@ while ($row = mysqli_fetch_row($parents)) {
 
 
 if (isset($_POST["btnSubmit"])) {
-  
+
   $nameSurname = $_POST['txtNameSurname'];
   $email = $_POST['txtEmail'];
   $cellNumber = $_POST['txtCellNumber'];
   $grade = $_POST['ddlGrade'];
   $parentId = $_POST['ddlParent'];
-  
+  $date = date("Y-m-d");
 
-  $sql = "INSERT INTO `learners`(`NameAndSurname`, `EmailAddress`, `Grade`, `ParentID`, `Cellnumber`) VALUES ('$nameSurname', '$email', '$grade','$parentId', '$cellNumber')";
+  $sql = "INSERT INTO `learners`(`NameAndSurname`, `EmailAddress`, `Grade`, `ParentID`, `Cellnumber`,`CreatedBy`,
+  `CreatedDate`) VALUES ('$nameSurname', '$email', '$grade','$parentId', '$cellNumber','admin','$date')";
+
   $rs = mysqli_query($db, $sql);
 
   if ($rs) {
-    $message_str = "<div class=\"alert alert-success\">Learner registered successfully.</div>";    
+    $message_str = "<div class=\"alert alert-success\">Learner registered successfully.</div>";
   }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Impumelelo High School</title>
 
@@ -84,25 +87,25 @@ if (isset($_POST["btnSubmit"])) {
               <?php echo "$adminName"; ?>
             </b></h5>
           <li class="mt">
-          <a href="admin.dashboard.php">
+            <a href="admin.dashboard.php">
               <i class="fa fa-dashboard"></i>
               <span>Dashboard</span>
             </a>
           </li>
           <li class="sub-menu">
-          <a href="admin.registerlearner.php">
+            <a href="admin.registerlearner.php">
               <i class="fa fa-user"></i>
               <span>Register a Learner</span>
             </a>
           </li>
           <li class="sub-menu">
-          <a href="admin.applyfortransport.php">
+            <a href="admin.applyfortransport.php">
               <i class="fa fa-bus"></i>
               <span>Apply for Bus Transport</span>
             </a>
           </li>
           <li class="sub-menu">
-          <a href="admin.reports.php">
+            <a href="admin.reports.php">
               <i class="fa fa-bar-chart"></i>
               <span>Reports</span>
             </a>
@@ -126,6 +129,7 @@ if (isset($_POST["btnSubmit"])) {
                     <div class="col-lg-12">
                       <h4><i class="fa fa-angle-right"></i>Learner Details</h4>
                       <hr>
+                      <?php echo "$message_str"; ?>
                     </div>
                   </div>
                   <div class="form-group ">
@@ -217,4 +221,3 @@ if (isset($_POST["btnSubmit"])) {
 </body>
 
 </html>
-

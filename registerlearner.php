@@ -2,6 +2,7 @@
 include("shared/database.php");
 include("shared/common.php");
 
+$message_str = "";
 $grades_str = "";
 $query = "SELECT * FROM grades";
 $result = mysqli_query($db, $query);
@@ -15,16 +16,18 @@ if (isset($_POST["btnSubmit"])) {
   $email = $_POST['txtEmail'];
   $cellNumber = $_POST['txtCellNumber'];
   $grade = $_POST['ddlGrade'];
+  $date = date("Y-m-d");
 
   // database insert SQL code
-  $sql = "INSERT INTO `learners`(`NameAndSurname`, `EmailAddress`, `Grade`, `ParentID`, `Cellnumber`) VALUES ('$nameSurname', '$email', '$grade',1, '$cellNumber')";
+  $sql = "INSERT INTO `learners`(`NameAndSurname`, `EmailAddress`, `Grade`, `ParentID`, `Cellnumber`,`CreatedBy`,`CreatedDate`) 
+  VALUES ('$nameSurname', '$email', '$grade',1, '$cellNumber','parent',$date)";
 
   // insert in database 
   $rs = mysqli_query($db, $sql);
 
-  // if ($rs) {
-  //   echo "Learner Records Inserted";
-  // }
+  if ($rs) {
+    $message_str = "<div class=\"alert alert-success\">Learner registered successfully.</div>";
+  }
 
 }
 ?>
@@ -121,6 +124,7 @@ if (isset($_POST["btnSubmit"])) {
                     <div class="col-lg-12">
                       <h4><i class="fa fa-angle-right"></i>Learner Details</h4>
                       <hr>
+                      <?php echo "$message_str"; ?>
                     </div>
                   </div>
                   <div class="form-group ">
@@ -152,9 +156,7 @@ if (isset($_POST["btnSubmit"])) {
                   </div>
                   <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                      <button class="btn btn-theme" type="submit" name="btnSubmit" data-toggle="modal"
-                        data-target="#myModal">Submit</button>
-                      <!-- <button class="btn btn-theme04" type="button">Cancel</button> -->
+                      <button class="btn btn-theme" type="submit" name="btnSubmit">Submit</button>
                     </div>
                   </div>
                 </form>
@@ -170,24 +172,6 @@ if (isset($_POST["btnSubmit"])) {
     <!--main content end-->
 
   </section>
-
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Learner Registration</h4>
-        </div>
-        <div class="modal-body">
-          <div class="alert alert-success">Learner details have been rigstered successfully.</div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- js placed at the end of the document so the pages load faster -->
   <script src="lib/jquery/jquery.min.js"></script>
