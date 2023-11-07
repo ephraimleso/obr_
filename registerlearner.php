@@ -20,15 +20,16 @@ if (isset($_POST["btnSubmit"])) {
 
   // database insert SQL code
   $sql = "INSERT INTO `learners`(`NameAndSurname`, `EmailAddress`, `Grade`, `ParentID`, `Cellnumber`,`CreatedBy`,`CreatedDate`) 
-  VALUES ('$nameSurname', '$email', '$grade',1, '$cellNumber','parent',$date)";
+  VALUES ('$nameSurname', '$email', '$grade','$parentId', '$cellNumber','parent','$date')";
 
   // insert in database 
   $rs = mysqli_query($db, $sql);
 
   if ($rs) {
     $message_str = "<div class=\"alert alert-success\">Learner registered successfully.</div>";
+  } else {
+    $message_str = "<div class=\"alert alert-danger\">Oops...Unable to save...$sql</div>";
   }
-
 }
 ?>
 
@@ -68,7 +69,7 @@ if (isset($_POST["btnSubmit"])) {
 
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="login.php">Logout</a></li>
+          <li><a class="logout" href="logout.php">Logout</a></li>
         </ul>
       </div>
     </header>
@@ -122,7 +123,7 @@ if (isset($_POST["btnSubmit"])) {
                 <form class="cmxform form-horizontal style-form" id="frm_registerlearner" method="post" action="">
                   <div class="form-group ">
                     <div class="col-lg-12">
-                      <h4><i class="fa fa-angle-right"></i>Learner Details</h4>
+                      <h3><i class="fa fa-angle-right"></i>Learner Details</h3>
                       <hr>
                       <?php echo "$message_str"; ?>
                     </div>
@@ -189,8 +190,10 @@ if (isset($_POST["btnSubmit"])) {
 
 </html>
 
-<script>
-  function getSubRoute(val){
+<script type="text/javascript">
+  function getSubRoute(val) {
     alert(val);
   }
+
+
 </script>

@@ -9,8 +9,6 @@ $result = mysqli_query($db, $query);
 
 $apps_query = "CALL get_applications('$parentId')";
 $apps_result = mysqli_query($db, $apps_query);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -91,11 +89,11 @@ $apps_result = mysqli_query($db, $apps_query);
             <div class="col-md-12">
               <div class="content-panel">
                 <table class="table table-striped table-advance table-hover">
-                  <h4><i class="fa fa-angle-right"></i> My Learner(s)</h4>
+                  <h3><i class="fa fa-angle-right"></i> My Learner(s)</h3>
                   <thead>
                     <tr>
                       <th><i class="fa fa-user"></i> Full Name</th>
-                      <th class="hidden-phone"><i class="fa fa-mail"></i> Email Address</th>
+                      <th class="hidden-phone"><i class="fa fa-envelope"></i> Email Address</th>
                       <th><i class="fa fa-phone"></i> Cell Number</th>
                       <th></th>
                       <th></th>
@@ -126,7 +124,7 @@ $apps_result = mysqli_query($db, $apps_query);
             <br />
             <div class="col-md-12">
               <div class="content-panel">
-                <h4><i class="fa fa-angle-right"></i> My Application(s)</h4>
+                <h3><i class="fa fa-angle-right"></i> My Application(s)</h3>
                 <br />
                 <table class="table table-bordered table-striped table-condensed cf">
                   <thead class="cf">
@@ -134,12 +132,12 @@ $apps_result = mysqli_query($db, $apps_query);
                       <th><i class="fa fa-user"></i> Full Name</th>
                       <th>Pick Up</th>
                       <th>Pick Up Route</th>
-                      <th class="numeric">Bus</th>
+                      <th>Bus</th>
                       <th>Drop Off</th>
                       <th>Drop Off Route</th>
                       <th>Bus</th>
                       <th>Status</th>
-                      <th></th>
+                      <th>Cancel</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -167,12 +165,13 @@ $apps_result = mysqli_query($db, $apps_query);
                         <td>
                           <?php echo $row['BusNumber_dropoff'] ?>
                         </td>
-                        <td>
+                        <td
+                          style="background-color:<?= ($row['StatusId'] == 1) ? 'yellow' : (($row['StatusId'] == 2) ? 'lime' : 'pink') ?>">
                           <?php echo $row['Status_description'] ?>
                         </td>
                         <td>
                           <button class="btn btn-danger btn-xs" value="<?php echo $row['ID'] ?>"
-                            onclick="cancelApplication(this.value);">
+                            onclick="confirm_cancel(this.value);">
                             <i class="fa fa-close "></i>
                           </button>
                         </td>
@@ -181,13 +180,13 @@ $apps_result = mysqli_query($db, $apps_query);
                   </tbody>
                 </table>
               </div>
-              <!-- /content-panel -->
             </div>
           </div>
         </div>
       </section>
       <!-- /wrapper -->
     </section>
+
     <!-- /MAIN CONTENT -->
     <!--main content end-->
 
@@ -203,7 +202,6 @@ $apps_result = mysqli_query($db, $apps_query);
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
   <!--script for this page-->
-  <script src="shared/logic.js"></script>
 </body>
 
 </html>
@@ -215,8 +213,21 @@ $apps_result = mysqli_query($db, $apps_query);
       url: "shared/cancelApplication.php",
       data: { applicationId: val },
       success: function (data) {
-        location.href = window.location.href;       
+        location.href = window.location.href;
       }
     });
+  }
+
+  function confirm_cancel(val) {
+    let response = false;
+    if (confirm("Are you sure you want to cancel this application?") === true) {
+      response = true;
+    } else {
+      response = false;
+    }
+
+    if (Boolean(response) === true) {
+      cancelApplication(val);
+    }
   }
 </script>

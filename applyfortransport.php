@@ -57,35 +57,33 @@ if (isset($_POST["btnSubmit"])) {
 
   if ($routeId_pickup == 0 && $subRouteId_pickup == "---select---" && $routeId_dropoff == 0 && $subRouteId_dropoff == "---select---") {
     $message_str = "<div class=\"alert alert-warning\">No pick up or drop off specified. Please select valid options.</div>";
-  }
-  else{
-    
-  if (empty($routeId_pickup) || empty($subRouteId_pickup)) {
-    $routeId_pickup = "0";
-    $subRouteId_pickup = "0";
-    $busNumber_pickup = "";
-  }
+  } else {
 
-  if (empty($routeId_dropoff) || empty($subRouteId_dropoff)) {
-    $routeId_dropoff = "0";
-    $subRouteId_dropoff = "0";
-    $busNumber_dropoff = "";
-  }
+    if (empty($routeId_pickup) || empty($subRouteId_pickup)) {
+      $routeId_pickup = "0";
+      $subRouteId_pickup = "0";
+      $busNumber_pickup = "";
+    }
 
-  // database insert SQL code
-  $sql = "INSERT INTO `transportapplications`(`RouteId_pickup`, `SubRouteId_pickup`, `BusNumber_pickup`, `RouteId_dropoff`, `SubRouteId_dropoff`, 
+    if (empty($routeId_dropoff) || empty($subRouteId_dropoff)) {
+      $routeId_dropoff = "0";
+      $subRouteId_dropoff = "0";
+      $busNumber_dropoff = "";
+    }
+
+    // database insert SQL code
+    $sql = "INSERT INTO `transportapplications`(`RouteId_pickup`, `SubRouteId_pickup`, `BusNumber_pickup`, `RouteId_dropoff`, `SubRouteId_dropoff`, 
   `BusNumber_dropoff`, `LearnerId`, `NewLearner`, `NextYearGrade`, `StatusId`, `ApplicationDate`, `ApplicationYear`,`ParentId`,`CreatedBy`)
   VALUES ($routeId_pickup,$subRouteId_pickup,'$busNumber_pickup',$routeId_dropoff,  $subRouteId_dropoff 
   ,'$busNumber_dropoff',$learnerId,'$newLearner',$nextYearGrade,$statusId,'$date',$year,$parentId,'parent')";
 
-  // insert in database 
-  $rs = mysqli_query($db, $sql);
+    // insert in database 
+    $rs = mysqli_query($db, $sql);
 
-  if ($rs) {
-    $message_str = "<div class=\"alert alert-success\">Application submitted successfully.</div>";
+    if ($rs) {
+      $message_str = "<div class=\"alert alert-success\">Application submitted successfully.</div>";
+    }
   }
-  }
-
 }
 ?>
 
@@ -119,7 +117,7 @@ if (isset($_POST["btnSubmit"])) {
 
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="login.php">Logout</a></li>
+          <li><a class="logout" href="logout.php">Logout</a></li>
         </ul>
       </div>
     </header>
@@ -163,9 +161,42 @@ if (isset($_POST["btnSubmit"])) {
                 <form class="cmxform form-horizontal style-form" id="frm_registerlearner" method="post" action="">
                   <div class="form-group ">
                     <div class="col-lg-12">
-                      <h4><i class="fa fa-angle-right"></i>Details</h4>
+                      <h3><i class="fa fa-angle-right"></i>Details</h3>
                       <hr>
                       <?php echo "$message_str"; ?>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label class="control-label col-lg-2"><b>Learner:</b></label>
+                    <div class="col-lg-10">
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label for="ddlNameSurname" class="control-label col-lg-2">
+                      Name and Surname
+                    </label>
+                    <div class="col-lg-10">
+                      <select class=" form-control" name="ddlNameSurname" onchange="getLearnerDetails(this.value);"
+                        required>
+                        <?php echo "$learners_str"; ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label for="ddlNewLearner" class="control-label col-lg-2">New learner </label>
+                    <div class="col-lg-10">
+                      <select class=" form-control" name="ddlNewLearner">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label for="ddlGrade" class="control-label col-lg-2">Grade in 2024 </label>
+                    <div class="col-lg-10">
+                      <select class=" form-control" name="ddlGrade">
+                        <?php echo "$grades_str"; ?>
+                      </select>
                     </div>
                   </div>
                   <div class="form-group ">
@@ -239,39 +270,7 @@ if (isset($_POST["btnSubmit"])) {
                         readonly="true" />
                     </div>
                   </div>
-                  <div class="form-group ">
-                    <label class="control-label col-lg-2"><b>Learner:</b></label>
-                    <div class="col-lg-10">
-                    </div>
-                  </div>
-                  <div class="form-group ">
-                    <label for="ddlNameSurname" class="control-label col-lg-2">
-                      Name and Surname
-                    </label>
-                    <div class="col-lg-10">
-                      <select class=" form-control" name="ddlNameSurname" onchange="getLearnerDetails(this.value);"
-                        required>
-                        <?php echo "$learners_str"; ?>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group ">
-                    <label for="ddlNewLearner" class="control-label col-lg-2">New learner </label>
-                    <div class="col-lg-10">
-                      <select class=" form-control" name="ddlNewLearner">
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group ">
-                    <label for="ddlGrade" class="control-label col-lg-2">Grade in 2024 </label>
-                    <div class="col-lg-10">
-                      <select class=" form-control" name="ddlGrade">
-                        <?php echo "$grades_str"; ?>
-                      </select>
-                    </div>
-                  </div>
+
 
                   <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">

@@ -44,7 +44,7 @@ $apps_result = mysqli_query($db, $apps_query);
 
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="logout.php">Logout</a></li>
+          <li><a class="logout" href="admin.logout.php">Logout</a></li>
         </ul>
       </div>
     </header>
@@ -93,10 +93,10 @@ $apps_result = mysqli_query($db, $apps_query);
         <h3>Dashboard</h3>
         <div class="row mt">
           <div class="col-lg-12">
-            <div class="col-md-12">
+            <!-- <div class="col-md-12">
               <div class="content-panel">
-                <table class="table table-striped table-advance table-hover">
-                  <h4><i class="fa fa-angle-right"></i>Learner(s)</h4>
+              <h3><i class="fa fa-angle-right"></i>Learner(s)</h3>
+                <table class="table table-striped table-advance table-hover">                  
                   <thead>
                     <tr>
                       <th><i class="fa fa-user"></i> Full Name</th>
@@ -126,12 +126,11 @@ $apps_result = mysqli_query($db, $apps_query);
                   </tbody>
                 </table>
               </div>
-              <!-- /content-panel -->
-            </div>
+            </div> -->
             <br />
             <div class="col-md-12">
               <div class="content-panel">
-                <h4><i class="fa fa-angle-right"></i>Application(s)</h4>
+                <h3><i class="fa fa-angle-right"></i>Transport Application(s)</h3>
                 <br />
                 <table class="table table-bordered table-striped table-condensed cf">
                   <thead class="cf">
@@ -139,18 +138,19 @@ $apps_result = mysqli_query($db, $apps_query);
                       <th><i class="fa fa-user"></i> Full Name</th>
                       <th>Pick Up</th>
                       <th>Pick Up Route</th>
-                      <th class="numeric">Bus</th>
+                      <th>Bus</th>
                       <th>Drop Off</th>
                       <th>Drop Off Route</th>
                       <th>Bus</th>
                       <th>Status</th>
-                      <th></th>
-                      <th></th>
+                      <th>Allocate</th>
+                      <th>Cancel</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php while ($row = mysqli_fetch_array($apps_result)):
                       ; ?>
+                      
                       <tr>
                         <td>
                           <?php echo $row[0] ?>
@@ -173,7 +173,7 @@ $apps_result = mysqli_query($db, $apps_query);
                         <td>
                           <?php echo $row['BusNumber_dropoff'] ?>
                         </td>
-                        <td>
+                        <td style="background-color:<?=($row['StatusId']==1)?'yellow':(($row['StatusId']==2)?'lime':'pink')?>">
                           <?php echo $row['Status_description'] ?>
                         </td>
                         <td> 
@@ -182,7 +182,7 @@ $apps_result = mysqli_query($db, $apps_query);
                           </button>
                         </td>
                         <td> 
-                          <button class="btn btn-danger btn-xs" value="<?php echo $row['ID'] ?>" onclick="cancelApplication(this.value);">
+                          <button class="btn btn-danger btn-xs" value="<?php echo $row['ID'] ?>" onclick="confirm_cancel(this.value);">
                             <i class="fa fa-close "></i>
                           </button>
                         </td>
@@ -219,6 +219,19 @@ $apps_result = mysqli_query($db, $apps_query);
 </html>
 
 <script type="text/javascript">
+    function confirm_cancel(val) {
+    let response = false;
+    if (confirm("Are you sure you want to cancel this application?") === true) {
+      response = true;
+    } else {
+      response = false;
+    }
+
+    if (Boolean(response) === true) {
+      cancelApplication(val);
+    }
+  }
+
   function cancelApplication(val){    
    $.ajax({
         type: "POST",

@@ -74,13 +74,7 @@ if (isset($_POST["btnSignin"])) {
           </label> -->
           <button class="btn btn-theme btn-block" type="submit" name="btnSignin"><i class="fa fa-lock"></i> SIGN
             IN</button>
-          <hr>
-          <div class="registration">
-            Don't have an account yet?<br />
-            <a class="" href="createaccount.php">
-              Create an account
-            </a>
-          </div>
+          
         </div>
         <!-- Modal -->
         <div aria-hidden="true" aria-labelleconny="myModalLabel" role="dialog" tabindex="-1" id="myModal"

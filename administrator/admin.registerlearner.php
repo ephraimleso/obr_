@@ -73,7 +73,7 @@ if (isset($_POST["btnSubmit"])) {
 
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="login.php">Logout</a></li>
+          <li><a class="logout" href="admin.logout.php">Logout</a></li>
         </ul>
       </div>
     </header>
@@ -127,7 +127,7 @@ if (isset($_POST["btnSubmit"])) {
                 <form class="cmxform form-horizontal style-form" id="frm_registerlearner" method="post" action="">
                   <div class="form-group ">
                     <div class="col-lg-12">
-                      <h4><i class="fa fa-angle-right"></i>Learner Details</h4>
+                      <h3><i class="fa fa-angle-right"></i>Learner Details</h3>
                       <hr>
                       <?php echo "$message_str"; ?>
                     </div>
@@ -194,7 +194,7 @@ if (isset($_POST["btnSubmit"])) {
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Learner Registration</h4>
+          <h3 class="modal-title" id="myModalLabel">Learner Registration</h3>
         </div>
         <div class="modal-body">
           <div class="alert alert-success">Learner details have been rigstered successfully.</div>
