@@ -1,1 +1,3 @@
-[{"Id":1, "Name":"Ephy", "Surname":"Leso", "Cellnumber":"0721234567", "EmailAddress":"ephraim@leso.co.za", "Password":"12345"}]
+[{"Id":1, "Name":"First", "Surname":"Parent", "Cellnumber":"0721234567", "EmailAddress":"firstparent@gmail.com", "Password":"12345"},
+ {"Id":2, "Name":"Second", "Surname":"Parent", "Cellnumber":"0721234568", "EmailAddress":"second@parent.co.za", "Password":"12345"},
+ {"Id":3, "Name":"Third", "Surname":"Parent", "Cellnumber":"0721234569", "EmailAddress":"third@parent.co.za", "Password":"12345"}]

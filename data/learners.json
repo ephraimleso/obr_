@@ -1,7 +1,3 @@
-[{"ID":2, "NameAndSurname":"Learner Learner", "EmailAddress":"this@learner.co.za", "Grade":8, "ParentID":1, "Cellnumber":"0723698898", "CreatedBy":"parent", "CreatedDate":"2023-11-02"},
- {"ID":3, "NameAndSurname":"First Learner", "EmailAddress":"eleso@bspark.co.za", "Grade":8, "ParentID":1, "Cellnumber":"0721234567", "CreatedBy":"parent", "CreatedDate":"2023-11-02"},
- {"ID":4, "NameAndSurname":"Second Learner", "EmailAddress":"second@obr.co.za", "Grade":8, "ParentID":1, "Cellnumber":"0721234568", "CreatedBy":"parent", "CreatedDate":"2023-11-02"},
- {"ID":5, "NameAndSurname":"Third Learner", "EmailAddress":"third@test.co.za", "Grade":12, "ParentID":1, "Cellnumber":"0780050004", "CreatedBy":"parent", "CreatedDate":"2023-11-03"},
- {"ID":6, "NameAndSurname":"Admin Reg", "EmailAddress":"eleso@bspark.co.za", "Grade":8, "ParentID":2, "Cellnumber":"0721234568", "CreatedBy":"admin", "CreatedDate":"2023-11-03"},
- {"ID":7, "NameAndSurname":"Second Child", "EmailAddress":"sc@test.co.za", "Grade":10, "ParentID":2, "Cellnumber":"0712235689", "CreatedBy":"admin", "CreatedDate":"2023-11-03"},
- {"ID":8, "NameAndSurname":"Third Child", "EmailAddress":"test@test.com", "Grade":9, "ParentID":3, "Cellnumber":"0721234568", "CreatedBy":"admin", "CreatedDate":"2023-11-03"}]
+[{"Id":1, "Name":"First", "Surname":"Parent", "Cellnumber":"0721234567", "EmailAddress":"firstparent@gmail.com", "Password":"12345"},
+ {"Id":2, "Name":"Second", "Surname":"Parent", "Cellnumber":"0721234568", "EmailAddress":"second@parent.co.za", "Password":"12345"},
+ {"Id":3, "Name":"Third", "Surname":"Parent", "Cellnumber":"0721234569", "EmailAddress":"third@parent.co.za", "Password":"12345"}]
